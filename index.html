@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+        }
+
+        .display {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #result {
+            width: 100%;
+            padding: 10px;
+            font-size: 24px;
+            text-align: right;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        .operator {
+            background-color: #f9a825;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #f9b935;
+        }
+
+        .equal {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .equal:hover {
+            background-color: #66bb6a;
+        }
+
+        #graphCanvas {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="result" readonly>
+        </div>
+        <div class="buttons">
+            <button onclick="appendToResult('7')">7</button>
+            <button onclick="appendToResult('8')">8</button>
+            <button onclick="appendToResult('9')">9</button>
+            <button class="operator" onclick="clearResult()">C</button>
+
+            <button onclick="appendToResult('4')">4</button>
+            <button onclick="appendToResult('5')">5</button>
+            <button onclick="appendToResult('6')">6</button>
+            <button class="operator" onclick="appendToResult('+')">+</button>
+
+            <button onclick="appendToResult('1')">1</button>
+            <button onclick="appendToResult('2')">2</button>
+            <button onclick="appendToResult('3')">3</button>
+            <button class="operator" onclick="appendToResult('-')">-</button>
+
+            <button onclick="appendToResult('0')">0</button>
+            <button onclick="appendToResult('.')">.</button>
+            <button class="equal" onclick="calculateResult()">=</button>
+            <button class="operator" onclick="appendToResult('*')">*</button>
+
+            <button onclick="appendToResult('/')">/</button>
+            <button onclick="appendToResult('**')">^</button>
+            <button onclick="appendToResult('Math.sqrt(')">√</button>
+            <button onclick="appendToResult('Math.cbrt(')">∛</button>
+
+            <button onclick="appendToResult('Math.log10(')">log</button>
+            <button onclick="appendToResult('Math.log(')">ln</button>
+            <button onclick="appendToResult('Math.exp(')">e^x</button>
+            <button onclick="appendToResult('Math.PI')">π</button>
+
+            <button onclick="appendToResult('Math.sin(')">sin</button>
+            <button onclick="appendToResult('Math.cos(')">cos</button>
+            <button onclick="appendToResult('Math.tan(')">tan</button>
+            <button onclick="appendToResult('Math.asin(')">asin</button>
+            <button onclick="appendToResult('Math.acos(')">acos</button>
+            <button onclick="appendToResult('Math.atan(')">atan</button>
+        </div>
+
+        <div>
+          <label for="functionInput">Function:</label>
+          <input type="text" id="functionInput" value="x*x">
+          <button onclick="plotFunction()">Plot</button>
+          <canvas id="graphCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        let result = document.getElementById('result');
+
+        function appendToResult(value) {
+            result.value += value;
+        }
+
+        function clearResult() {
+            result.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                result.value = eval(result.value);
+            } catch (error) {
+                result.value = 'Error';
+            }
+        }
+
+        function plotFunction() {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+            const functionInput = document.getElementById('functionInput').value;
+
+            const width = canvas.width;
+            const height = canvas.height;
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.beginPath();
+            ctx.strokeStyle = 'blue';
+
+            for (let x = -10; x <= 10; x += 0.1) {
+                let y;
+                try {
+                    y = eval(functionInput.replace(/x/g, x));
+                } catch (e) {
+                    console.error("Invalid function:", e);
+                    return;
+                }
+
+                const pixelX = (x + 10) * (width / 20);
+                const pixelY = height - (y + 10) * (height / 20);
+
+                if (x === -10) {
+                    ctx.moveTo(pixelX, pixelY);
+                } else {
+                    ctx.lineTo(pixelX, pixelY);
+                }
+            }
+
+            ctx.stroke();
+        }
+    </script>
+</body>
+</html>
+    <script>
+        function appendToResult(value) {
+            result.value += value;
+        }
+
+        function clearResult() {
+            result.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                result.value = eval(result.value);
+            } catch (error) {
+                result.value = 'Error';
+            }
+        }
+
+	    function appendToResult(value) {
+            result.value += value;
+        }
+    </script>
+    <script>
+        function appendToResult(value) {
+            result.value += value;
+        }
+
+        function clearResult() {
+            result.value = '';
+        }
+
+        function calculateResult() {
+            try {
+                result.value = eval(result.value);
+            } catch (error) {
+                result.value = 'Error';
+            }
+        }
+
+	    function appendToResult(value) {
+            result.value += value;
+        }
+    </script>
+</body>
+</html>
